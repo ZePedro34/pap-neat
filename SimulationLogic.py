@@ -9,5 +9,6 @@ class SimulationLogic:
         for p in ws.preys:
             for f in ws.food:
                 if (distance(p.transform.pos, f.pos) < 20):
+                    p.eat()
                     ws.food.remove(f)
                     ws.food.append(FoodState(ws.getRandomPos()))
