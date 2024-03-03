@@ -1,4 +1,3 @@
 class FoodState:
-    def __init__(self, posX: int, posY: int):
-        self.posX = posX
-        self.posY = posY
+    def __init__(self, pos=(0, 0)):
+        self.pos = pos

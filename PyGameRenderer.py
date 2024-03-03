@@ -1,5 +1,6 @@
+import math
 import pygame
-
+from MathUtils import getAngDegrees
 from WorldState import WorldState
 
 class PyGameRenderer:
@@ -10,7 +11,10 @@ class PyGameRenderer:
         self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
         self.clock = pygame.time.Clock()
 
-        self.showGrid = showGrid
+        self.carImg = pygame.image.load('assets/racecar.png')
+        self.carImgScale = 40
+        self.carImg = pygame.transform.scale(self.carImg, (self.carImgScale, self.carImgScale))
+        self.carImg = pygame.transform.rotate(self.carImg, -90)
 
     def destroy(self) -> None:
         pygame.quit
@@ -21,23 +25,18 @@ class PyGameRenderer:
             None
         self.screen.fill("white")
 
-        cellWidth = self.screenWidth / ws.numCols
-        cellHeight = self.screenHeight / ws.numRows
-
-        if (self.showGrid):
-            for i in range(ws.numCols):
-                for j in range(ws.numRows):
-                    pygame.draw.rect(self.screen, "black", (i*cellWidth, j*cellHeight, cellWidth, cellHeight), 1)
-
         for p in ws.preys:
-            pygame.draw.circle(self.screen, "red", (p.posX*cellWidth + cellWidth/2, p.posY*cellHeight + cellHeight/2), cellWidth/3)
+            preyScreen = self.world2Screen(p.transform.pos, ws)
+            carRotated = pygame.transform.rotate(self.carImg, getAngDegrees(p.transform.ori))
+            self.screen.blit(carRotated, (preyScreen[0]-self.carImgScale/2, preyScreen[1]-self.carImgScale/2))
 
         for f in ws.food:
-            pygame.draw.circle(self.screen, "purple", (f.posX*cellWidth + cellWidth/2, f.posY*cellHeight + cellHeight/2), cellWidth/4)
-
-
+            foodScreen = self.world2Screen(f.pos, ws)
+            pygame.draw.circle(self.screen, "purple", foodScreen, 10)
 
         
         pygame.display.flip()
         #self.clock.tick(framerate)
-        
+    
+    def world2Screen(self, pos, ws: WorldState):
+        return (pos[0]+abs(ws.min[0]), -pos[1]+abs(ws.min[1]))

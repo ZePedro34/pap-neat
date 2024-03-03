@@ -15,9 +15,9 @@ if __name__ == '__main__':
     simLogic = SimulationLogic()
 
     ws = WorldState()
-    framerate = 5
-
-    while(ws.isActive()):
+    framerate = 60
+    timestamp = 0
+    while(timestamp < 15):
 
         for p in ws.preys:
            preyCtrl.execute(ws, p)
@@ -26,8 +26,8 @@ if __name__ == '__main__':
 
         renderer.render(ws)
 
-        time.sleep(1 / framerate)
-        ws.timestamp += 1 /framerate
+        time.sleep(1/framerate)
+        timestamp += 1/framerate
 
 
 
