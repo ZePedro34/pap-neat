@@ -3,20 +3,21 @@ from PyGameRenderer import PyGameRenderer
 from SimulationLogic import SimulationLogic
 
 from WorldState import WorldState
+from controller.NeatPreyController import NeatPreyController
 from controller.PredatorController import PredatorController
 from controller.PreyController import PreyController
 
 
 def runSimulation():
     renderer = PyGameRenderer(False)
-    preyCtrl = PreyController()
+    preyCtrl = NeatPreyController()
     predatorCtrl = PredatorController()
     simLogic = SimulationLogic()
 
     ws = WorldState()
-    framerate = 30
+    framerate = 10
     timestamp = 0
-    while(timestamp < 15):
+    while(timestamp < 60):
 
         for p in ws.preys:
             preyCtrl.execute(ws, p)
@@ -25,7 +26,7 @@ def runSimulation():
         for p in ws.predators:
             predatorCtrl.execute(ws, p)
 
-        simLogic.run(ws)
+        #simLogic.run(ws)
 
         renderer.render(ws)
 
@@ -64,6 +65,8 @@ def runPreySimulation(cycles, preyCtrl: PreyController):
 
 if __name__ == '__main__':
     runSimulation()
+
+    
 
     #for i in range(30):
      #   score = runPreySimulation(1000, PreyController())

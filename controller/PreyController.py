@@ -12,6 +12,5 @@ class PreyController:
             nearestFoodRelative = pointRelative(preyState.transform.pos, preyState.transform.ori, nearestFood.pos)
             preyState.moveForward(nearestFoodRelative[0])
             preyState.rotate(getAngRads(nearestFoodRelative))
-            preyState.energy -= 1
             #print("f", nearestFoodRelative, getAngDegrees(nearestFoodRelative))
             #print("p", preyState.transform.pos, getAngDegrees(preyState.transform.ori))
