@@ -34,6 +34,10 @@ class PyGameRenderer:
             foodScreen = self.world2Screen(f.pos, ws)
             pygame.draw.circle(self.screen, "purple", foodScreen, 10)
 
+        for p in ws.predators:
+            predatorScreen = self.world2Screen(p.transform.pos, ws)
+            pygame.draw.circle(self.screen, "red", predatorScreen, 15)
+
         
         pygame.display.flip()
         #self.clock.tick(framerate)

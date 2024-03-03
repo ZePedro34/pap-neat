@@ -1,16 +1,14 @@
-import math
-import random
 from MathUtils import getAngDegrees, getAngRads, pointRelative
 from PreyState import PreyState
 from WorldState import WorldState
 
 
-class BetterHeadFoodPreyController:
+class PreyController:
     def execute(self, ws: WorldState, preyState: PreyState) -> None:
         #print("--------------------------------------")
-        
-        if(len(ws.food)):
-            nearestFood = ws.getNearestFood(preyState)
+
+        if(len(ws.food) > 0):
+            nearestFood = ws.getNearestFood(preyState.transform.pos)
             nearestFoodRelative = pointRelative(preyState.transform.pos, preyState.transform.ori, nearestFood.pos)
             preyState.moveForward(nearestFoodRelative[0])
             preyState.rotate(getAngRads(nearestFoodRelative))

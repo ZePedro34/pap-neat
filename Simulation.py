@@ -1,17 +1,16 @@
 import time
-from BetterHeadFoodPreyController import BetterHeadFoodPreyController
-from ForwardPreyController import ForwardPreyController
-from HeadFoodPreyController import HeadFoodPreyController
 from PyGameRenderer import PyGameRenderer
-from RandomPreyController import RandomPreyController
 from SimulationLogic import SimulationLogic
 
 from WorldState import WorldState
+from controller.PredatorController import PredatorController
+from controller.PreyController import PreyController
 
 if __name__ == '__main__':
 
     renderer = PyGameRenderer(False)
-    preyCtrl = BetterHeadFoodPreyController()
+    preyCtrl = PreyController()
+    predatorCtrl = PredatorController()
     simLogic = SimulationLogic()
 
     ws = WorldState()
@@ -22,6 +21,9 @@ if __name__ == '__main__':
         for p in ws.preys:
            preyCtrl.execute(ws, p)
         
+        for p in ws.predators:
+            predatorCtrl.execute(ws, p)
+            
         simLogic.run(ws)
 
         renderer.render(ws)
