@@ -1,12 +1,14 @@
 import math
-from MathUtils import distance, getAngDegrees, getAngRads, norm, pointRelative
-from PreyState import PreyState
-from WorldState import WorldState
+from mymath.MathUtils import distance, getAngDegrees, getAngRads, norm, pointRelative
+from state.PreyState import PreyState
+from state.WorldState import WorldState
 
 
 class NeatPreyController:
+    def __init__(self, neural_net) -> None:
+        self.neural_net = neural_net
+
     def execute(self, ws: WorldState, preyState: PreyState) -> None:
-        print("------------------------------")
 
         foodSensors = self.getFoodSensors(ws, preyState)
 
@@ -14,12 +16,17 @@ class NeatPreyController:
         inputs.append(preyState.isTired)
         for i in foodSensors:
             inputs.append(i)
-        print("Inputs", inputs)
 
-        outputs = self.getOutputs(inputs)
-        print("Outputs", outputs)
-
+        outputs = self.neural_net.activate(inputs)
         self.executeAction(outputs, preyState)
+
+        #self.writeOutputs(outputs)
+
+        
+        #print("Inputs", inputs)
+        #outputs = self.getOutputs(inputs)
+        #print("Outputs", outputs)
+        
 
     def getFoodSensors(self, ws: WorldState, preyState: PreyState):
         foodSensors = [0, 0, 0, 0, 0, 0, 0]
@@ -66,12 +73,35 @@ class NeatPreyController:
         if inputs[0] == True:
             outputs[4] = 1
         else:
-            outputs[0] = 1
+            outputs[0] = 5
         
         return outputs
 
     def executeAction(self, outputs, preyState: PreyState):
-        if (outputs[0] != 0):
-            preyState.moveForward(preyState.maxDl)
-        elif (outputs[4] != 0):
+        outs = []
+        counter = 0
+        for o in outputs:
+            outs.append((o, counter))
+            counter += 1
+        outs.sort(key=lambda x: x[0])
+        
+        
+        best = outs[0]
+
+        if (best[1] == 0):
+            preyState.moveForward(best[0])
+        elif (best[1] == 1):
+            preyState.moveForward(-best[0])
+        elif (best[1] == 2):
+            preyState.rotate(best[0])
+        elif (best[1] == 3):
+            preyState.rotate(-best[0])
+        elif (best[1] == 4):
             preyState.rest()
+
+    def writeOutputs(self, outputs):
+        f = open("outputs.txt", "a")
+        for o in outputs:
+            f.write(str(o) + ", ")
+        f.write("/n")
+        f.close()

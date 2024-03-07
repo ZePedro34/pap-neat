@@ -1,6 +1,6 @@
-from MathUtils import getAngDegrees, getAngRads, pointRelative
-from PreyState import PreyState
-from WorldState import WorldState
+from mymath.MathUtils import getAngDegrees, getAngRads, pointRelative
+from state.PreyState import PreyState
+from state.WorldState import WorldState
 
 
 class PreyController:

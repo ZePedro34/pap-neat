@@ -1,6 +1,6 @@
 import math
 
-from MathUtils import rotate
+from mymath.MathUtils import rotate
 
 class Transform:
     def __init__(self, pos=(0, 0), ori=(1, 0)) -> None:

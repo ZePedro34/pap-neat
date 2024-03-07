@@ -1,5 +1,5 @@
 import math
-from Transform import Transform
+from mymath.Transform import Transform
 
 class PredatorState:
     def __init__(self, pos=(0, 0), ori= (1, 0)):

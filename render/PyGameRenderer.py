@@ -1,7 +1,7 @@
 import math
 import pygame
-from MathUtils import getAngDegrees
-from WorldState import WorldState
+from mymath.MathUtils import getAngDegrees
+from state.WorldState import WorldState
 
 class PyGameRenderer:
     def __init__(self, showGrid = True) -> None:

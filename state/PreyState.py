@@ -1,22 +1,22 @@
 import math
-from Transform import Transform
+from mymath.Transform import Transform
 
 class PreyState:
     def __init__(self, pos=(0, 0), ori= (1, 0)):
         self.transform = Transform(pos, ori)
         self.maxTheta = math.radians(10)
-        self.maxDl = 4
+        self.maxDl = 6
         self.maxEnergy = 100
         self.energy = self.maxEnergy
         self.isTired = False
         self.age = 0
         self.died = False
         self.foodEaten = 0
-        self.viewDistance = 200
+        self.viewDistance = 500
         self.viewAngle = math.radians(30)
 
     def rotate(self, angRads):
-        self.energy -= 1
+        #self.energy -= 1
         if (self.energy < 10):
             self.isTired = True
         if(not self.isTired):
@@ -26,7 +26,7 @@ class PreyState:
                 self.transform.rotate(max(angRads, -self.maxTheta))
 
     def moveForward(self, dl):
-        self.energy -= 1
+        #self.energy -= 1
         if (self.energy < 10):
             self.isTired = True
         if(not self.isTired):
@@ -48,4 +48,4 @@ class PreyState:
         self.age += 1
 
     def score(self):
-        return self.age * 5 + self.foodEaten
+        return self.age + self.foodEaten*2000

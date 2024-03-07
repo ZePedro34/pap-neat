@@ -1,8 +1,8 @@
 import random
-from FoodState import FoodState
-from MathUtils import distance
-from PredatorState import PredatorState
-from PreyState import PreyState
+from state.FoodState import FoodState
+from mymath.MathUtils import distance
+from state.PredatorState import PredatorState
+from state.PreyState import PreyState
 
 
 class WorldState:
@@ -20,12 +20,12 @@ class WorldState:
         #for i in range(5):
         #    self.food.append(FoodState(self.getRandomPos()))
 
-        self.food.append(FoodState((50, 0)))
+        self.food.append(FoodState((50, 50)))
         self.food.append(FoodState((150, 0)))
         self.food.append(FoodState((200, 200)))
         self.food.append(FoodState((0, 100)))
         self.food.append(FoodState((-200, 200)))
-        self.food.append(FoodState((-200, 0)))
+        self.food.append(FoodState((-200, 50)))
         self.food.append(FoodState((-200, -200)))
         self.food.append(FoodState((0, -150)))
         self.food.append(FoodState((200, -200)))

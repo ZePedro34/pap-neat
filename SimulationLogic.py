@@ -1,7 +1,7 @@
 import random
-from FoodState import FoodState
-from MathUtils import distance
-from WorldState import WorldState
+from state.FoodState import FoodState
+from mymath.MathUtils import distance
+from state.WorldState import WorldState
 
 
 class SimulationLogic:
@@ -11,4 +11,4 @@ class SimulationLogic:
                 if (distance(p.transform.pos, f.pos) < 20):
                     p.eat()
                     ws.food.remove(f)
-                    ws.food.append(FoodState(ws.getRandomPos()))
+                    #ws.food.append(FoodState(ws.getRandomPos()))

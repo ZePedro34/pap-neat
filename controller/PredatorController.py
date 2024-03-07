@@ -1,6 +1,6 @@
-from MathUtils import getAngRads, pointRelative
-from PredatorState import PredatorState
-from WorldState import WorldState
+from mymath.MathUtils import getAngRads, pointRelative
+from state.PredatorState import PredatorState
+from state.WorldState import WorldState
 
 class PredatorController:
     def execute(self, ws: WorldState, predatorState: PredatorState) -> None:
