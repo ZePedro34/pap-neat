@@ -6,6 +6,8 @@ class PredatorState:
         self.transform = Transform(pos, ori)
         self.maxTheta = math.radians(10)
         self.maxDl = 2
+        self.viewDistance = 400
+        self.viewAngle = math.radians(30)
 
     def rotate(self, angRads):
         if(angRads>0):

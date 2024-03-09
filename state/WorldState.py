@@ -14,11 +14,12 @@ class WorldState:
         self.predators = []
         self.food = []
 
-        self.preys.append(PreyState((-300,0), (1,0)))
+        self.preys.append(PreyState((0,0), (1,0)))
         #self.predators.append(PredatorState((-350, 250), (1,0)))
 
-        #for i in range(5):
+        #for i in range(8):
         #    self.food.append(FoodState(self.getRandomPos()))
+
 
         self.food.append(FoodState((50, 50)))
         self.food.append(FoodState((150, 0)))
@@ -26,9 +27,19 @@ class WorldState:
         self.food.append(FoodState((0, 100)))
         self.food.append(FoodState((-200, 200)))
         self.food.append(FoodState((-200, 50)))
-        self.food.append(FoodState((-200, -200)))
+        self.food.append(FoodState((-200, -50)))
         self.food.append(FoodState((0, -150)))
         self.food.append(FoodState((200, -200)))
+
+
+        self.food.append(FoodState((120, -250)))
+        self.food.append(FoodState((30, -200)))
+        self.food.append(FoodState((-300, -10)))
+        self.food.append(FoodState((-130, -50)))
+        self.food.append(FoodState((320, 10)))
+        self.food.append(FoodState((-85, 150)))
+        self.food.append(FoodState((225, 250)))
+
 
     def getNearestPrey(self, point):
         distances = []

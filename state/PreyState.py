@@ -5,15 +5,16 @@ class PreyState:
     def __init__(self, pos=(0, 0), ori= (1, 0)):
         self.transform = Transform(pos, ori)
         self.maxTheta = math.radians(10)
-        self.maxDl = 6
+        self.maxDl = 4
         self.maxEnergy = 100
         self.energy = self.maxEnergy
         self.isTired = False
         self.age = 0
         self.died = False
         self.foodEaten = 0
-        self.viewDistance = 500
+        self.viewDistance = 400
         self.viewAngle = math.radians(30)
+        self.score = 1000
 
     def rotate(self, angRads):
         #self.energy -= 1
@@ -43,9 +44,7 @@ class PreyState:
     def eat(self):
         self.energy = self.maxEnergy
         self.foodEaten += 1
+        self.score += (2000-self.age)*2
 
     def stepAge(self):
         self.age += 1
-
-    def score(self):
-        return self.age + self.foodEaten*2000

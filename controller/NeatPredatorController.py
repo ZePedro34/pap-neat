@@ -1,52 +1,50 @@
 import math
 from mymath.MathUtils import distance, getAngDegrees, getAngRads, norm, pointRelative
+from state.PredatorState import PredatorState
 from state.PreyState import PreyState
 from state.WorldState import WorldState
 
 
-class NeatPreyController:
+class NeatPredatorController:
     def __init__(self, neural_net) -> None:
         self.neural_net = neural_net
 
-    def execute(self, ws: WorldState, preyState: PreyState) -> None:
+    def execute(self, ws: WorldState, predator: PredatorState) -> None:
 
-        foodSensors = self.getFoodSensors(ws, preyState)
+        preySensors = self.getPreySensors(ws, predator)
 
         inputs = []
-        inputs.append(preyState.isTired)
-        for i in foodSensors:
+        inputs.append(0)
+        for i in preySensors:
             inputs.append(i)
 
         outputs = self.neural_net.activate(inputs)
-        self.executeAction(outputs, preyState)
-        
-        #print("Inputs", inputs)
-        #outputs = self.getOutputs(inputs)
-        #print("Outputs", outputs)
+        self.executeAction(outputs, predator)
+
         
 
-    def getFoodSensors(self, ws: WorldState, preyState: PreyState):
-        foodSensors = [0, 0, 0, 0, 0, 0, 0]
+    def getPreySensors(self, ws: WorldState, predator: PredatorState):
+        preySensors = [0, 0, 0, 0, 0, 0, 0]
         highestStrength = 0
-        for f in ws.food:
-            fRelative = pointRelative(preyState.transform.pos, preyState.transform.ori, f.pos)
+        for p in ws.preys:
+            fRelative = pointRelative(predator.transform.pos, predator.transform.ori, p.transform.pos)
             sensorPos = self.getSensorPosition(fRelative)
-            sensorStrength = self.getSensorStrength(fRelative, preyState.viewDistance)
+            sensorStrength = self.getSensorStrength(fRelative, predator.viewDistance)
             #print(sensorPos, sensorStrength)
             if (highestStrength < sensorStrength): highestStrength = sensorStrength
             #print(highestStrength)
 
-            if (self.isFoodReachable(sensorPos, sensorStrength)):
-                if(foodSensors[sensorPos-1] < sensorStrength):
-                    foodSensors[sensorPos-1] = sensorStrength
+            if (self.isPreyReachable(sensorPos, sensorStrength)):
+                if(preySensors[sensorPos-1] < sensorStrength):
+                    preySensors[sensorPos-1] = sensorStrength
         
         for i in range(7):
-            if (foodSensors[i] < highestStrength): foodSensors[i] = 0
+            if (preySensors[i] < highestStrength): preySensors[i] = 0
 
         
-        return foodSensors
+        return preySensors
 
-    def isFoodReachable(self, sensorPos, sensorStrength):
+    def isPreyReachable(self, sensorPos, sensorStrength):
         return sensorPos > 0 and sensorStrength >= 0
 
     def getSensorStrength(self, point, viewDistance):
@@ -74,7 +72,7 @@ class NeatPreyController:
         return sensor
     
 
-    def executeAction(self, outputs, preyState: PreyState):
+    def executeAction(self, outputs, predator: PredatorState):
         outs = []
         counter = 0
         for o in outputs:
@@ -88,14 +86,10 @@ class NeatPreyController:
         #    print(best)
 
         if (best[1] == 0):
-            preyState.moveForward(best[0]*preyState.maxDl)
-        #elif (best[1] == 1):
-        #    preyState.moveForward(-best[0]*preyState.maxDl)
+            predator.moveForward(best[0]*predator.maxDl)
         elif (best[1] == 1):
-            preyState.rotate(best[0]*preyState.maxTheta)
+            predator.rotate(best[0]*predator.maxTheta)
         elif (best[1] == 2):
-            preyState.rotate(-best[0]*preyState.maxTheta)
-        #elif (best[1] == 4):
-        #    preyState.rest()
+            predator.rotate(-best[0]*predator.maxTheta)
         else:
             print("warn: invalid index")
